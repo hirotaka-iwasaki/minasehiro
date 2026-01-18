@@ -3,14 +3,12 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
-const recentApps = projects
-  .filter(p => p.data.type === 'app')
-  .slice(0, 3);
+const recentProjects = projects.slice(0, 3);
 
 const galleryPreview = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
+  '/images/gallery/1.webp',
+  '/images/gallery/2.webp',
+  '/images/gallery/3.webp',
 ];
 ---
 
@@ -25,7 +23,7 @@ const galleryPreview = [
       />
       <h1 class="text-3xl font-bold mb-2">minasehiro</h1>
       <div class="text-neutral-600 dark:text-neutral-400 space-y-1">
-        <p>Engineer (Rails/Flutter) | Photographer (Sony)</p>
+        <p>Engineer (Rails/Flutter) | Photographer (Leica)</p>
         <p class="text-sm">遠きに行くには必ず邇きよりす</p>
       </div>
     </section>
@@ -41,23 +39,32 @@ const galleryPreview = [
           View More
         </a>
       </div>
-      {recentApps.length > 0 ? (
+      {recentProjects.length > 0 ? (
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {recentApps.map(app => (
+          {recentProjects.map(project => (
             <a
-              href={`/apps/${app.id}`}
-              class="block p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+              href={project.data.type === 'web' ? project.data.siteUrl : `/apps/${project.id}`}
+              target={project.data.type === 'web' ? '_blank' : undefined}
+              rel={project.data.type === 'web' ? 'noopener noreferrer' : undefined}
+              class="flex gap-3 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
             >
-              <h3 class="font-medium mb-2">{app.data.title}</h3>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-3 line-clamp-2">
-                {app.data.summary}
-              </p>
-              <div class="flex gap-2 flex-wrap">
-                {app.data.platforms.map(platform => (
-                  <span class="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded">
-                    {platform}
+              {project.data.icon && (
+                <img
+                  src={project.data.icon}
+                  alt={project.data.title}
+                  class="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                />
+              )}
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-medium text-sm">{project.data.title}</h3>
+                  <span class={`text-xs px-1.5 py-0.5 rounded-full ${project.data.type === 'app' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'}`}>
+                    {project.data.type === 'app' ? 'Mobile' : 'Web'}
                   </span>
-                ))}
+                </div>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                  {project.data.summary}
+                </p>
               </div>
             </a>
           ))}
@@ -79,10 +86,13 @@ const galleryPreview = [
         </a>
       </div>
       <div class="grid grid-cols-3 gap-4">
-        {galleryPreview.map(item => (
-          <div class="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center">
-            <span class="text-neutral-400 dark:text-neutral-600 text-sm">Photo {item.id}</span>
-          </div>
+        {galleryPreview.map((src, i) => (
+          <img
+            src={src}
+            alt={`Photo ${i + 1}`}
+            class="aspect-square object-cover rounded-lg"
+            loading="lazy"
+          />
         ))}
       </div>
     </section>

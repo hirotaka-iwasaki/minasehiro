@@ -8,6 +8,7 @@ const projects = defineCollection({
     type: z.enum(['app', 'web']),
     platforms: z.array(z.string()),
     status: z.enum(['active', 'maintenance', 'archived']),
+    icon: z.string().optional(),
     storeUrl: z.string().url().optional(),
     repoUrl: z.string().url().optional(),
     siteUrl: z.string().url().optional(),
