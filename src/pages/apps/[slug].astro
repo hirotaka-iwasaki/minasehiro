@@ -1,0 +1,72 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, platforms, storeUrl, repoUrl, siteUrl, status } = project.data;
+---
+
+<BaseLayout title={title} description={summary}>
+  <article class="space-y-6">
+    <header class="space-y-4">
+      <h1 class="text-2xl font-bold">{title}</h1>
+      <p class="text-neutral-600 dark:text-neutral-400">{summary}</p>
+      <div class="flex gap-2 flex-wrap">
+        {platforms.map(platform => (
+          <span class="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded">
+            {platform}
+          </span>
+        ))}
+        <span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
+          {status}
+        </span>
+      </div>
+    </header>
+
+    <div class="flex gap-3 flex-wrap">
+      {storeUrl && (
+        <a
+          href={storeUrl}
+          class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          target="_blank"
+          rel="noopener"
+        >
+          App Store
+        </a>
+      )}
+      {siteUrl && (
+        <a
+          href={siteUrl}
+          class="px-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+          target="_blank"
+          rel="noopener"
+        >
+          Website
+        </a>
+      )}
+      {repoUrl && (
+        <a
+          href={repoUrl}
+          class="px-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+          target="_blank"
+          rel="noopener"
+        >
+          Repository
+        </a>
+      )}
+    </div>
+
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

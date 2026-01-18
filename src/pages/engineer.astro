@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LinkCard from '@/components/astro/link-card.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const apps = projects.filter(p => p.data.type === 'app');
+
+const skills = {
+  languages: ['Python', 'Dart', 'Ruby', 'TypeScript', 'JavaScript'],
+  frameworks: ['Flutter', 'Rails', 'Astro', 'FastAPI'],
+  tools: ['Git', 'Docker', 'Firebase', 'Cloudflare'],
+  ai: ['Claude', 'ChatGPT', 'GitHub Copilot', 'Cursor'],
+};
+
+const engineerLinks = [
+  {
+    name: 'GitHub',
+    link: 'https://github.com/minasehiro',
+    description: 'ソースコードを公開しています。',
+    avatar: '/images/services/github.svg',
+  },
+  {
+    name: 'Zenn',
+    link: 'https://zenn.dev/minasehiro',
+    description: 'AI や Flutter、Rails に関する記事を公開しています。',
+    avatar: '/images/services/zenn.svg',
+  },
+];
+---
+
+<BaseLayout title="Engineer" description="エンジニアとしての活動">
+  <div class="space-y-8">
+    <section class="text-center">
+      <h1 class="text-2xl font-bold mb-4">Engineer</h1>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        AI駆動開発に全振りをしているエンジニアです。
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        効率的な開発と価値あるプロダクト作りを心がけています。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Skills</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Languages</h3>
+          <div class="flex gap-2 flex-wrap">
+            {skills.languages.map(skill => (
+              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Frameworks</h3>
+          <div class="flex gap-2 flex-wrap">
+            {skills.frameworks.map(skill => (
+              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Tools</h3>
+          <div class="flex gap-2 flex-wrap">
+            {skills.tools.map(skill => (
+              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">AI Tools</h3>
+          <div class="flex gap-2 flex-wrap">
+            {skills.ai.map(skill => (
+              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Apps</h2>
+      {apps.length === 0 ? (
+        <p class="text-neutral-600 dark:text-neutral-400">Coming soon...</p>
+      ) : (
+        <div class="grid gap-4 md:grid-cols-2">
+          {apps.map(app => (
+            <a
+              href={`/apps/${app.id}`}
+              class="block p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+            >
+              <h3 class="font-medium mb-2">{app.data.title}</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-3 line-clamp-2">
+                {app.data.summary}
+              </p>
+              <div class="flex gap-2 flex-wrap">
+                {app.data.platforms.map(platform => (
+                  <span class="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded">
+                    {platform}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Links</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {engineerLinks.map((link) => (
+          <LinkCard
+            name={link.name}
+            link={link.link}
+            description={link.description}
+            avatar={link.avatar}
+          />
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

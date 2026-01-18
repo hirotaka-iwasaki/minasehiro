@@ -1,0 +1,27 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 px-4 md:px-0">
+  <div class="flex flex-wrap items-center justify-center gap-1 text-sm text-neutral-600 dark:text-neutral-400">
+    <p>&copy; {currentYear}</p>
+    <span class="mx-1">|</span>
+    <p>Designed By</p>
+    <a
+      href="https://minasehiro.art"
+      class="text-primary hover:underline"
+    >
+      minasehiro
+    </a>
+    <span class="mx-1">|</span>
+    <p>Powered By</p>
+    <a
+      href="https://astro.build/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-primary hover:underline"
+    >
+      Astro
+    </a>
+  </div>
+</footer>

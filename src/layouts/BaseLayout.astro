@@ -1,0 +1,85 @@
+---
+import '@/styles/globals.css';
+import { NoiseBackground } from '@/components/react/noise-background';
+import Header from '@/components/astro/header.astro';
+import Footer from '@/components/astro/footer.astro';
+import { GoogleAnalytics } from 'astro-google-analytics';
+import { ClientRouter } from 'astro:transitions';
+import { siteConfig } from '@/config';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = siteConfig.meta.description, ogImage = '/images/minasehiro.png' } = Astro.props;
+
+const ogImageURL = new URL(ogImage, Astro.site).href;
+const permalink = new URL(Astro.url.pathname, Astro.site).href;
+const pageTitle = title ? `${title} | ${siteConfig.meta.title}` : `${siteConfig.meta.title} - ${siteConfig.meta.slogan}`;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href={siteConfig.meta.favicon} />
+    <title>{pageTitle}</title>
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={permalink} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={permalink} />
+    <meta property="twitter:title" content={pageTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImageURL} />
+
+    <script is:inline>
+      const setTheme = () => {
+        const theme =
+          localStorage.getItem('theme') ??
+          (window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light');
+
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      };
+
+      setTheme();
+
+      document.addEventListener('astro:after-swap', setTheme);
+      document.addEventListener('astro:page-load', setTheme);
+    </script>
+
+    {siteConfig.googleAnalyticsId && <GoogleAnalytics id={siteConfig.googleAnalyticsId} />}
+
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen flex flex-col bg-background text-foreground">
+    <div class="w-full max-w-4xl mx-auto flex flex-col flex-1 px-4 md:px-0">
+      <Header />
+
+      <main class="flex-1 py-8">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+
+    <NoiseBackground client:load />
+  </body>
+</html>

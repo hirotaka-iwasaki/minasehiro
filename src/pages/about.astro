@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LinkCard from '@/components/astro/link-card.astro';
+import { links } from '@/config/links';
+---
+
+<BaseLayout title="About" description="プロフィール - 自己紹介">
+  <div class="space-y-8">
+    <section class="text-center">
+      <img
+        src="/images/profile.jpg"
+        alt="Profile"
+        class="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
+      />
+      <h1 class="text-2xl font-bold mb-2">
+        水瀬（みなせ）ひろ / 岩﨑 弘幸（いわさき ひろたか）
+      </h1>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        東京でエンジニアとカメラマンをしています。
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        AI駆動開発に全振りをしているエンジニア。
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        Python / Flutter / Rails をよく使っています。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Activities</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <a
+          href="/engineer"
+          class="block p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+        >
+          <h3 class="font-semibold text-lg mb-2">Engineer</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            技術スタック、開発したアプリ、技術記事など
+          </p>
+        </a>
+        <a
+          href="/photographer"
+          class="block p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+        >
+          <h3 class="font-semibold text-lg mb-2">Photographer</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            使用機材、ギャラリー、Instagram など
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Links</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {links.map((link) => (
+          <LinkCard
+            name={link.name}
+            link={link.link}
+            description={link.description}
+            avatar={link.avatar}
+          />
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

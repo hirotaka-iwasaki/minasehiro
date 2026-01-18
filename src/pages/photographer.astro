@@ -1,0 +1,102 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LinkCard from '@/components/astro/link-card.astro';
+
+const equipment = {
+  cameras: [
+    { name: 'Camera body', note: '後で追加' },
+  ],
+  lenses: [
+    { name: 'Lens', note: '後で追加' },
+  ],
+};
+
+const photographerLinks = [
+  {
+    name: 'Instagram',
+    link: 'https://instagram.com/minasehiro',
+    description: 'これまで撮影してきた写真が公開されています。',
+    avatar: '/images/services/instagram.svg',
+  },
+];
+
+const galleryPlaceholder = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+  { id: 5 },
+  { id: 6 },
+];
+---
+
+<BaseLayout title="Photographer" description="カメラマンとしての活動">
+  <div class="space-y-8">
+    <section class="text-center">
+      <h1 class="text-2xl font-bold mb-4">Photographer</h1>
+      <p class="text-neutral-600 dark:text-neutral-400">
+        風景やポートレートを中心に撮影しています。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Equipment</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Cameras</h3>
+          <div class="space-y-2">
+            {equipment.cameras.map(item => (
+              <div class="p-3 rounded-lg border border-neutral-200 dark:border-neutral-800">
+                <p class="font-medium">{item.name}</p>
+                {item.note && (
+                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{item.note}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Lenses</h3>
+          <div class="space-y-2">
+            {equipment.lenses.map(item => (
+              <div class="p-3 rounded-lg border border-neutral-200 dark:border-neutral-800">
+                <p class="font-medium">{item.name}</p>
+                {item.note && (
+                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{item.note}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Gallery</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+        Coming soon...
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {galleryPlaceholder.map(item => (
+          <div class="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center">
+            <span class="text-neutral-400 dark:text-neutral-600 text-sm">Photo {item.id}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Links</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {photographerLinks.map((link) => (
+          <LinkCard
+            name={link.name}
+            link={link.link}
+            description={link.description}
+            avatar={link.avatar}
+          />
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

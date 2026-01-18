@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const privacyPages = await getCollection('privacy');
+  return privacyPages.map(page => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const { appName, effectiveDate, contactEmail, dataCollected, thirdParties } = page.data;
+---
+
+<BaseLayout title={`${appName} Privacy Policy`} description={`Privacy policy for ${appName}`}>
+  <article class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-bold">{appName} Privacy Policy</h1>
+      <p class="text-neutral-600 dark:text-neutral-400 mt-2">Effective Date: {effectiveDate}</p>
+    </header>
+
+    <div class="prose max-w-none">
+      <Content />
+
+      <h2>Data We Collect</h2>
+      {dataCollected.length === 0 ? (
+        <p>We do not collect any personal data.</p>
+      ) : (
+        <ul>
+          {dataCollected.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      )}
+
+      <h2>Third-Party Services</h2>
+      {thirdParties.length === 0 ? (
+        <p>We do not use any third-party services that collect data.</p>
+      ) : (
+        <>
+          <p>This app uses the following third-party services:</p>
+          <ul>
+            {thirdParties.map(service => (
+              <li>{service}</li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <h2>Your Rights</h2>
+      <p>
+        You have the right to request access to, correction of, or deletion of your personal data.
+        To exercise these rights, please contact us at the email address below.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        If you have any questions about this privacy policy, please contact us at:
+        <a href={`mailto:${contactEmail}`} class="text-primary hover:underline">{contactEmail}</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

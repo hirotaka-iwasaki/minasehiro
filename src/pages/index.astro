@@ -1,0 +1,90 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const recentApps = projects
+  .filter(p => p.data.type === 'app')
+  .slice(0, 3);
+
+const galleryPreview = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+];
+---
+
+<BaseLayout title="">
+  <div class="space-y-12">
+    <!-- Intro Section -->
+    <section class="text-center py-8">
+      <img
+        src="/images/profile.jpg"
+        alt="Profile"
+        class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+      />
+      <h1 class="text-3xl font-bold mb-2">minasehiro</h1>
+      <div class="text-neutral-600 dark:text-neutral-400 space-y-1">
+        <p>Engineer (Rails/Flutter) | Photographer (Sony)</p>
+        <p class="text-sm">遠きに行くには必ず邇きよりす</p>
+      </div>
+    </section>
+
+    <!-- Engineer Section -->
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold">Engineer</h2>
+        <a
+          href="/engineer"
+          class="text-sm text-primary hover:underline"
+        >
+          View More
+        </a>
+      </div>
+      {recentApps.length > 0 ? (
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {recentApps.map(app => (
+            <a
+              href={`/apps/${app.id}`}
+              class="block p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+            >
+              <h3 class="font-medium mb-2">{app.data.title}</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-3 line-clamp-2">
+                {app.data.summary}
+              </p>
+              <div class="flex gap-2 flex-wrap">
+                {app.data.platforms.map(platform => (
+                  <span class="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded">
+                    {platform}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-neutral-600 dark:text-neutral-400">Coming soon...</p>
+      )}
+    </section>
+
+    <!-- Photographer Section -->
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold">Photographer</h2>
+        <a
+          href="/photographer"
+          class="text-sm text-primary hover:underline"
+        >
+          View More
+        </a>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        {galleryPreview.map(item => (
+          <div class="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center">
+            <span class="text-neutral-400 dark:text-neutral-600 text-sm">Photo {item.id}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

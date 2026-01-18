@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const supportPages = await getCollection('support');
+  return supportPages.map(page => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const { appName, contactEmail, responseTime } = page.data;
+---
+
+<BaseLayout title={`${appName} Support`} description={`Support page for ${appName}`}>
+  <article class="space-y-6">
+    <h1 class="text-2xl font-bold">{appName} Support</h1>
+
+    <div class="prose max-w-none">
+      <Content />
+
+      <h2>Contact</h2>
+      <p>
+        For support inquiries, please email us at:
+        <a href={`mailto:${contactEmail}`} class="text-primary hover:underline">{contactEmail}</a>
+      </p>
+      <p>We typically respond within {responseTime}.</p>
+
+      <h2>Bug Report Template</h2>
+      <p>When reporting an issue, please include the following information:</p>
+      <ul>
+        <li><strong>App Name / Version:</strong> {appName} / [version]</li>
+        <li><strong>Device / OS:</strong> [e.g., iPhone 15 / iOS 17.0]</li>
+        <li><strong>Steps to Reproduce:</strong> [Describe the steps]</li>
+        <li><strong>Expected Behavior:</strong> [What should happen]</li>
+        <li><strong>Actual Behavior:</strong> [What actually happens]</li>
+      </ul>
+    </div>
+  </article>
+</BaseLayout>
