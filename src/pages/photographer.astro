@@ -4,10 +4,12 @@ import LinkCard from '@/components/astro/link-card.astro';
 
 const equipment = {
   cameras: [
-    { name: 'Camera body', note: '後で追加' },
+    { name: 'Leica M EV1', note: 'メイン' },
+    { name: 'Fujifilm X-T2', note: 'サブ' },
   ],
   lenses: [
-    { name: 'Lens', note: '後で追加' },
+    { name: 'Carl Zeiss Planar T* 50mm F2', note: 'メイン' },
+    { name: 'フジノンレンズ XF35mmF1.4 R', note: 'サブ' },
   ],
 };
 
@@ -20,14 +22,7 @@ const photographerLinks = [
   },
 ];
 
-const galleryPlaceholder = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-];
+const gallery = Array.from({ length: 25 }, (_, i) => `/images/gallery/${i + 1}.webp`);
 ---
 
 <BaseLayout title="Photographer" description="カメラマンとしての活動">
@@ -35,7 +30,7 @@ const galleryPlaceholder = [
     <section class="text-center">
       <h1 class="text-2xl font-bold mb-4">Photographer</h1>
       <p class="text-neutral-600 dark:text-neutral-400">
-        風景やポートレートを中心に撮影しています。
+        スナップや風景を中心に撮影しています。
       </p>
     </section>
 
@@ -73,14 +68,14 @@ const galleryPlaceholder = [
 
     <section>
       <h2 class="text-xl font-semibold mb-4">Gallery</h2>
-      <p class="text-neutral-600 dark:text-neutral-400 mb-4">
-        Coming soon...
-      </p>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {galleryPlaceholder.map(item => (
-          <div class="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center">
-            <span class="text-neutral-400 dark:text-neutral-600 text-sm">Photo {item.id}</span>
-          </div>
+      <div class="masonry-gallery">
+        {gallery.map((src, i) => (
+          <img
+            src={src}
+            alt={`Photo ${i + 1}`}
+            class="w-full block"
+            loading="lazy"
+          />
         ))}
       </div>
     </section>
@@ -100,3 +95,20 @@ const galleryPlaceholder = [
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  .masonry-gallery {
+    column-count: 2;
+    column-gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .masonry-gallery {
+      column-count: 3;
+    }
+  }
+
+  .masonry-gallery img {
+    break-inside: avoid;
+  }
+</style>
