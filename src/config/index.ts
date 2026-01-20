@@ -1,4 +1,5 @@
-import { Github, Twitter } from 'lucide-react';
+import { Github } from 'lucide-react';
+import { XIcon } from '@/components/icons/XIcon';
 
 export const siteConfig = {
   siteName: 'minasehiro',
@@ -12,7 +13,7 @@ export const siteConfig = {
   googleAnalyticsId: 'G-R4YW72GP8T',
   social: [
     {
-      icon: Twitter,
+      icon: XIcon,
       label: 'X',
       link: 'https://x.com/minase_hiro_',
     },

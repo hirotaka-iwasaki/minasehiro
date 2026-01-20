@@ -36,13 +36,11 @@ Cloudflare Pages 上で運用する静的サイト。以下を目的とする：
 │       ├── photographer.astro # カメラマンページ
 │       ├── about.astro        # プロフィール統合ページ
 │       ├── contact.astro
-│       ├── apps/
-│       │   ├── index.astro
-│       │   └── [slug].astro
-│       ├── support/
-│       │   └── [slug].astro
-│       └── privacy/
-│           └── [slug].astro
+│       └── projects/
+│           ├── [slug].astro           # プロジェクト詳細
+│           └── [slug]/
+│               ├── support.astro      # サポートページ
+│               └── privacy.astro      # プライバシーポリシー
 ├── public/
 │   ├── images/
 │   │   └── services/      # SNS アイコン SVG
@@ -60,10 +58,10 @@ Home (/) → Engineer (/engineer) → Photographer (/photographer) → Contact (
 ```
 
 - **Home**: Engineer/Photographer の作品を抜粋表示
-- **Engineer**: 技術スタック、アプリ一覧、GitHub/Zenn リンク
+- **Engineer**: 技術スタック、プロジェクト一覧、GitHub/Zenn リンク
 - **Photographer**: 機材、ギャラリー、Instagram リンク
 - **About**: 統合プロフィール（Engineer/Photographer へのリンク）
-- **Apps**: アプリ詳細ページ（ナビゲーション非表示、直リンク用）
+- **Projects**: プロジェクト詳細ページ（アプリ・Webサービス共通）
 
 ## 開発コマンド
 
@@ -92,25 +90,25 @@ npm run preview
 
 **自動的に反映される場所:**
 - Home ページの Engineer セクション（最新3件）
-- Engineer ページの Apps セクション
-- `/apps/<app-slug>` で個別ページ生成
+- Engineer ページの Projects セクション
+- `/projects/<app-slug>` で個別ページ生成
 
 ### App Store Connect に設定するURL
 
-- **Support URL**: `https://minasehiro.art/support/<app-slug>`
-- **Privacy Policy URL**: `https://minasehiro.art/privacy/<app-slug>`
+- **Support URL**: `https://minasehiro.art/projects/<app-slug>/support`
+- **Privacy Policy URL**: `https://minasehiro.art/projects/<app-slug>/privacy`
 
-### Engineer ページのスキル更新
+### Engineer ページの Tech Stack 更新
 
-`src/pages/engineer.astro` の `skills` オブジェクトを直接編集:
+`src/pages/engineer.astro` の `techStack` 配列を直接編集:
 
 ```typescript
-const skills = {
-  languages: ['Python', 'Dart', 'Ruby', ...],
-  frameworks: ['Flutter', 'Rails', 'Astro', ...],
-  tools: ['Git', 'Docker', 'Firebase', ...],
-  ai: ['Claude', 'ChatGPT', ...],
-};
+const techStack = [
+  ['Python', 'Dart', 'Ruby', 'TypeScript'],        // 言語
+  ['FastAPI', 'Flutter', 'Rails', 'Next.js'],      // フレームワーク
+  ['AWS', 'Google Cloud', 'Firebase', 'Cloudflare'], // インフラ
+  ['Claude', 'GPT', 'Gemini'],                     // AI
+];
 ```
 
 ### Photographer ページの更新
@@ -153,8 +151,10 @@ export const links = [
 ### projects
 - `title`: 表示名
 - `type`: "app" | "web"
-- `platforms`: ["iOS", "Android", "Web"] など
-- `status`: "active" | "maintenance" | "archived"
+- `platforms`: プラットフォーム配列（各要素に name と status）
+  - `name`: プラットフォーム名（iOS, Android, Web など）
+  - `status`: "active" | "development" | "maintenance" | "archived"
+- `icon`: アイコン画像パス（任意）
 - `storeUrl`: App Store URL（任意）
 - `repoUrl`: リポジトリURL（任意）
 - `siteUrl`: サイトURL（任意）

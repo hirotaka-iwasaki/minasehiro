@@ -12,23 +12,31 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, summary, platforms, storeUrl, repoUrl, siteUrl, status } = project.data;
+const { title, summary, platforms, storeUrl, repoUrl, siteUrl, icon, type } = project.data;
 ---
 
 <BaseLayout title={title} description={summary}>
   <article class="space-y-6">
     <header class="space-y-4">
-      <h1 class="text-2xl font-bold">{title}</h1>
-      <p class="text-neutral-600 dark:text-neutral-400">{summary}</p>
+      <div class="flex items-start gap-4">
+        {icon && (
+          <img
+            src={icon}
+            alt={title}
+            class="w-20 h-20 rounded-2xl object-cover flex-shrink-0"
+          />
+        )}
+        <div>
+          <h1 class="text-2xl font-bold">{title}</h1>
+          <p class="text-neutral-600 dark:text-neutral-400 mt-1">{summary}</p>
+        </div>
+      </div>
       <div class="flex gap-2 flex-wrap">
         {platforms.map(platform => (
-          <span class="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded">
-            {platform}
+          <span class={`text-xs px-2 py-1 rounded ${platform.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'}`}>
+            {platform.name}{platform.status !== 'active' && ' (開発中)'}
           </span>
         ))}
-        <span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
-          {status}
-        </span>
       </div>
     </header>
 

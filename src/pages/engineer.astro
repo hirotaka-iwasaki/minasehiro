@@ -5,12 +5,12 @@ import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 
-const skills = {
-  languages: ['Python', 'Dart', 'Ruby', 'TypeScript'],
-  frameworks: ['Flutter', 'Rails', 'FastAPI'],
-  tools: ['Git', 'Docker', 'Firebase', 'Cloudflare', 'AWS', 'Google Cloud'],
-  ai: ['Claude', 'ChatGPT', 'Gemini'],
-};
+const techStack = [
+  ['Python', 'Dart', 'Ruby', 'TypeScript'],
+  ['FastAPI', 'Flutter', 'Rails', 'Next.js'],
+  ['AWS', 'Google Cloud', 'Firebase', 'Cloudflare'],
+  ['Claude', 'GPT', 'Gemini'],
+];
 
 const engineerLinks = [
   {
@@ -41,48 +41,13 @@ const engineerLinks = [
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-4">Skills</h2>
-      <div class="space-y-4">
-        <div>
-          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Languages</h3>
-          <div class="flex gap-2 flex-wrap">
-            {skills.languages.map(skill => (
-              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Frameworks</h3>
-          <div class="flex gap-2 flex-wrap">
-            {skills.frameworks.map(skill => (
-              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Tools</h3>
-          <div class="flex gap-2 flex-wrap">
-            {skills.tools.map(skill => (
-              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">AI Tools</h3>
-          <div class="flex gap-2 flex-wrap">
-            {skills.ai.map(skill => (
-              <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
+      <h2 class="text-xl font-semibold mb-4">Tech Stack</h2>
+      <div class="space-y-2">
+        {techStack.map(row => (
+          <p class="text-neutral-600 dark:text-neutral-400">
+            {row.join(' / ')}
+          </p>
+        ))}
       </div>
     </section>
 
@@ -94,9 +59,7 @@ const engineerLinks = [
         <div class="grid gap-4 md:grid-cols-2">
           {allProjects.map(project => (
             <a
-              href={project.data.type === 'web' ? project.data.siteUrl : `/apps/${project.id}`}
-              target={project.data.type === 'web' ? '_blank' : undefined}
-              rel={project.data.type === 'web' ? 'noopener noreferrer' : undefined}
+              href={`/projects/${project.id}`}
               class="flex gap-4 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
             >
               {project.data.icon && (
@@ -109,13 +72,17 @@ const engineerLinks = [
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 mb-1">
                   <h3 class="font-medium">{project.data.title}</h3>
-                  <span class={`text-xs px-2 py-0.5 rounded-full ${project.data.type === 'app' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'}`}>
-                    {project.data.type === 'app' ? 'Mobile' : 'Web'}
-                  </span>
                 </div>
                 <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-2 line-clamp-2">
                   {project.data.summary}
                 </p>
+                <div class="flex gap-2 flex-wrap">
+                  {project.data.platforms.map(platform => (
+                    <span class={`text-xs px-2 py-0.5 rounded ${platform.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'}`}>
+                      {platform.name}{platform.status !== 'active' && ' (開発中)'}
+                    </span>
+                  ))}
+                </div>
               </div>
             </a>
           ))}

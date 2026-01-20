@@ -3,10 +3,12 @@ title: Shakkei
 type: app
 icon: /images/projects/shakkei.png
 platforms:
-  - iOS
-status: active
+  - name: iOS
+    status: active
+  - name: Android
+    status: development
 storeUrl: https://apps.apple.com/app/id123456789
-summary: マップから写真を探せるアプリ
+summary: 他の写真家の「視点」を借りて、新しい撮影スポットを発見できる
 tags:
   - Utility
   - Productivity

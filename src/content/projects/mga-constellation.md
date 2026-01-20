@@ -3,18 +3,42 @@ title: MGA Constellation
 type: web
 icon: /images/projects/mga.png
 platforms:
-  - Web
-status: active
+  - name: Web
+    status: active
 siteUrl: https://mga-constellation.pages.dev/
-summary: Mrs. GREEN APPLE の楽曲を星座に見立て、新たな解釈を提案する
+summary: Mrs. GREEN APPLE の全楽曲を星空のように可視化
 tags:
   - Web Service
 ---
 
 ## About
 
-MGA Constellation は開発したWebサービスです。
+MGA星座マップは、Mrs. GREEN APPLE の全楽曲を星空のように可視化するファンメイドアプリです。
+全楽曲がリリース日順に星として配置され、アルバムやライブを選択すると収録曲・セットリスト順に星座
+線が結ばれ、美しい星座が浮かび上がります。
 
 ## Features
 
-(Features will be added here)
+- 星座マップ:全楽曲がリリース日順に星として配置。アルバムやライブを選択すると収録曲・セットリスト順に星座線が描かれる
+- 複数選択で比較: 複数のアルバムやライブを同時に選択可能。異なる色の星座線で共通曲や違いを視覚的に楽しめる
+- AI楽曲分析: 各楽曲のテーマや歌詞の解釈をAIが分析。キーワード・モチーフ・メタファーなど深い魅力を発見
+- 推し座を作成: お気に入りの楽曲を選んで自分だけのオリジナル星座を作成・保存
+- 楽曲検索: 全121曲から素早く楽曲を検索
+- シェア機能: 星座マップを画像として保存・SNS共有
+
+## Screenshots
+
+(準備中)
+
+## VersionHistory
+
+### 1.0.0
+- 初回リリース
+- 星座マップ表示（全楽曲をリリース日順に配置）
+- アルバム・ライブ選択による星座線表示
+- 複数選択による比較機能
+- AI楽曲分析（テーマ・キーワード・モチーフ解析）
+- 推し座（カスタム星座）作成・保存機能
+- 楽曲検索機能
+- シェア機能（画像化・SNS共有）
+- チュートリアル機能
